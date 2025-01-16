@@ -23,19 +23,25 @@ def browser(request):
     browser.quit()
 
 
-# @pytest.fixture(scope='session', autouse=True)
-# def stop_test_if_env_variables_are_empty(request):
-#     required_env_variables = [
-#         'BASE_URL',
-#         'GOSUSLUGI_PASSWORD'
-#     ]
-#     missing_variables = [var for var in required_env_variables if not os.getenv(var)]
-#     if missing_variables:
-#         assert False, \
-#             f'\nСледующие обязательные переменные окружения не заданы: {", ".join(missing_variables)}' \
-#             '\nВсе тесты остановлены.' \
-#             '\nЗадайте переменные окружения в файле .env в виде:' \
-#             f'\n{missing_variables[0]}=значение'
+@pytest.fixture(scope='session', autouse=True)
+def stop_test_if_env_variables_are_empty(request):
+    required_env_variables = [
+        'MAIN_BIT_URL',
+        'LOGIN_BIT',
+        'LOGIN_PASS',
+        'BUTTON_START',
+        'BUTTON_FINISH',
+        'BUTTON_CONTINUE',
+        'TELEGRAM_BOT_TOKEN',
+        'TELEGRAM_CHAT_ID'
+    ]
+    missing_variables = [var for var in required_env_variables if not os.getenv(var)]
+    if missing_variables:
+        assert False, \
+            f'\nСледующие обязательные переменные окружения не заданы: {", ".join(missing_variables)}' \
+            '\nВсе тесты остановлены.' \
+            '\nЗадайте переменные окружения в файле .env в виде:' \
+            f'\n{missing_variables[0]}=значение'
 
 
 def pytest_collection_modifyitems(items):
