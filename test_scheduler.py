@@ -4,8 +4,10 @@ import random
 import datetime
 import subprocess
 from telegram_logger import setup_telegram_logger
+from data.preset_data import PresetData
 
-logger = setup_telegram_logger()
+# Настройка логгера
+logger = setup_telegram_logger(PresetData.TELEGRAM_BOT_TOKEN, PresetData.TELEGRAM_CHAT_ID)
 
 
 def is_weekend():
@@ -82,14 +84,14 @@ def schedule_finish_day_test():
 schedule.every().day.at("08:30").do(schedule_start_day_test)
 schedule.every().day.at("17:50").do(schedule_finish_day_test)
 
-start_script_message = ('\nСкрипт запущен.'
-                        '\nЯ попробую проследить, что бы ты не проебался.'
-                        '\nТеперь ожидай когда я отработаю...')
-
-logger.info(start_script_message)
-print(start_script_message)
-
-# Бесконечный цикл для работы schedule
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+try:
+    start_script_message = ('\nСкрипт запущен.'
+                            '\nЯ попробую проследить, что бы ты не проебался.'
+                            '\nТеперь ожидай когда я отработаю...')
+    logger.info(start_script_message)
+    print(start_script_message)
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+except KeyboardInterrupt:
+    print("Программа завершена пользователем.")
