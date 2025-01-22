@@ -4,7 +4,14 @@ from selenium.webdriver.common.by import By
 
 from .base_page import BasePage
 
+from ..data.preset_data import PresetData
+
 from ..locators.bit_page_locators import BitPageLocators
+
+from ..telegram_logger import setup_telegram_logger
+
+# Настройка логгера
+logger = setup_telegram_logger(PresetData.TELEGRAM_BOT_TOKEN, PresetData.TELEGRAM_CHAT_ID)
 
 
 class BitPage(BasePage):
@@ -30,12 +37,18 @@ class BitPage(BasePage):
         self.should_be_specified_button_in_window_popup(button_text)
 
     def print_successful_message_about_start_day(self):
-        print('\nПоздравляю! Трудоголик хуев..'
-              f'\nСегодня ты начал свой рабочий день в {self.return_current_time()}')
+        successful_message_start_day = \
+            ('\nПоздравляю! Трудоголик хуев..'
+             f'\nСегодня ты начал свой рабочий день в {self.return_current_time()}')
+        print(successful_message_start_day)
+        logger.info(successful_message_start_day)
 
     def print_successful_message_about_finish_day(self):
-        print('\nПоздравляю! Трудоголик хуев..'
-              f'\nСегодня ты завершил свой рабочий день в {self.return_current_time()}')
+        successful_message_finish_day = \
+            ('\nПоздравляю! Трудоголик хуев..'
+             f'\nСегодня ты завершил свой рабочий день в {self.return_current_time()}')
+        print(successful_message_finish_day)
+        logger.info(successful_message_finish_day)
 
     def should_be_specified_popup_window_after(self, first_button_text, change_button_text):
         how, what = BitPageLocators.WINDOW_POPUP_TIMEMAN
