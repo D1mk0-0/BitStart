@@ -9,6 +9,9 @@ class BitPageLocators:
 
     BUTTON_COMPLETE = (By.XPATH, '//button/span[text()="Продолжить"]')
 
+    USER_AVATAR = (By.XPATH, '//div[contains(@class,"air-user-profile__avatar")]')
+
     ITEM_TIME_BLOCK = (By.XPATH, '//div[@id="timeman-container"]')
 
-    WINDOW_POPUP_TIMEMAN = (By.XPATH, '//div[@class="popup-window --open" and @id="timeman_main"]')
+    WINDOW_POPUP_TIMEMAN = (By.XPATH, '//div[@id="popup-window-content-timeman_main"]')
+    WINDOW_POPUP_AVATAR_HEADER = (By.XPATH, '//div[@id="bx-avatar-header-popup"]')

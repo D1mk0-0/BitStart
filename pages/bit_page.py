@@ -18,7 +18,7 @@ class BitPage(BasePage):
 
     def should_be_main_bitrix_mage(self, mine_url):
         self.should_be_main_page_url(mine_url)
-        self.should_be_item_time_block()
+        self.should_be_user_avatar()
 
     def should_be_auth_page(self):
         self.should_be_auth_url()
@@ -32,9 +32,13 @@ class BitPage(BasePage):
         self.should_be_input_pass()
         self.should_be_button_complete()
 
-    def should_be_popup_window_with_specified_button(self, button_text):
-        self.should_be_window_popup_timeman(button_text)
-        self.should_be_specified_button_in_window_popup(button_text)
+    def should_be_popup_user_window_with_specified_button(self, button_text):
+        self.should_be_window_popup_avatar_header()
+        self.should_be_specified_button_in_user_window_popup(button_text)
+
+    def should_be_popup_time_window_with_specified_button(self, button_name):
+        self.should_be_window_popup_timeman()
+        self.should_be_specified_button_in_window_popup_timeman(button_name)
 
     def print_successful_message_about_start_day(self):
         successful_message_start_day = \
@@ -52,20 +56,20 @@ class BitPage(BasePage):
 
     def should_be_specified_popup_window_after(self, first_button_text, change_button_text):
         how, what = BitPageLocators.WINDOW_POPUP_TIMEMAN
-        button = f'//button[text()="{change_button_text}"]'
+        button = f'//span[text()="{change_button_text}"]'
 
         assert self.is_element_present(how, what + button), \
             '\nГде-то мы обосрались:' \
             '\nЭлемент не был представлен на странице:' \
-            f'\nПосле выбора кнопки ""{first_button_text}"' \
+            f'\nПосле выбора кнопки "{first_button_text}"' \
             f'\nНа ее месте должна отобразиться кнопка "{change_button_text}"' \
             '\nА вот ее нет'
 
-    def should_be_item_time_block(self):
-        assert self.is_element_present(*BitPageLocators.ITEM_TIME_BLOCK), \
+    def should_be_user_avatar(self):
+        assert self.is_element_present(*BitPageLocators.USER_AVATAR), \
             '\nГде-то мы обосрались:' \
             '\nЭлемент не был представлен на странице:' \
-            '\nБлок с указанием времени и статусом работы'
+            '\nАватарка с твоей фоткой'
 
     def should_be_auth_url(self):
         assert self.should_be_string_in_url('oauth/authorize'), \
@@ -87,25 +91,30 @@ class BitPage(BasePage):
             '\nЭлемент не был представлен на странице:' \
             '\nКнопка "Продолжить"'
 
-    def should_be_specified_button_in_window_popup(self, button_text):
-        how, what = BitPageLocators.WINDOW_POPUP_TIMEMAN
-        button = f'//button[text()="{button_text}"]'
+    def should_be_specified_button_in_user_window_popup(self, button_text):
+        how, what = BitPageLocators.WINDOW_POPUP_AVATAR_HEADER
+        button = f'//button/span/span[contains(text(),"{button_text}")]'
 
         assert self.is_element_present(how, what + button), \
             '\nГде-то мы обосрались:' \
             '\nЭлемент не был представлен на странице:' \
-            f'\nКнопка "{button_text}" в попап-окне'
+            f'\nКнопка "{button_text}" в попап-окне пользователя'
 
-    def select_specified_button_in_window_popup(self, button_text):
+    def select_specified_button_in_user_window_popup(self, button_text):
+        how, what = BitPageLocators.WINDOW_POPUP_AVATAR_HEADER
+        button = f'//button/span/span[contains(text(),"{button_text}")]'
+        self.wait_for_present_and_click(how, what + button)
+
+    def select_specified_button_in_window_popup_timeman(self, button_text):
         how, what = BitPageLocators.WINDOW_POPUP_TIMEMAN
-        button = f'//button[text()="{button_text}"]'
+        button = f'//span[text()="{button_text}"]'
         self.wait_for_present_and_click(how, what + button)
 
     def select_button_complete(self):
         self.hover_mouse_to_element_and_click(*BitPageLocators.BUTTON_COMPLETE)
 
-    def select_item_time_block(self):
-        self.hover_mouse_to_element_and_click(*BitPageLocators.ITEM_TIME_BLOCK)
+    def select_user_avatar(self):
+        self.hover_mouse_to_element_and_click(*BitPageLocators.USER_AVATAR)
 
     def should_be_specified_login_in_form(self, login):
         element = (By.XPATH, '//div[contains(@class, "account-card__user-wrapper")]//div['
@@ -121,11 +130,25 @@ class BitPage(BasePage):
             '\nЭлемент не был представлен на странице:' \
             '\nФорма с заголовком "Войти в Битрикс24"'
 
-    def should_be_window_popup_timeman(self, button_text):
+    def should_be_window_popup_avatar_header(self):
+        assert self.is_element_present(*BitPageLocators.WINDOW_POPUP_AVATAR_HEADER), \
+            '\nГде-то мы обосрались:' \
+            '\nЭлемент не был представлен на странице:' \
+            f'\nПопап-окно с статусами пользователя'
+
+    def should_be_window_popup_timeman(self):
         assert self.is_element_present(*BitPageLocators.WINDOW_POPUP_TIMEMAN), \
             '\nГде-то мы обосрались:' \
             '\nЭлемент не был представлен на странице:' \
-            f'\nПопап-окно с кнопкой "{button_text}"'
+            f'\nПопап-окно с статусами пользователя'
+
+    def should_be_specified_button_in_window_popup_timeman(self, button_name):
+        how, what = BitPageLocators.WINDOW_POPUP_TIMEMAN
+        button = f'//span[text()="{button_name}"]'
+        assert self.is_element_present(how, what + button), \
+            '\nГде-то мы обосрались:' \
+            '\nЭлемент не был представлен на странице:' \
+            f'\nВ попап-окне со временем не представлена кнопка "{button_name}"'
 
     def should_be_input_login(self):
         assert self.is_element_present(*BitPageLocators.INPUT_LOGIN), \
