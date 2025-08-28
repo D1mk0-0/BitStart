@@ -72,11 +72,11 @@ class BitPage(BasePage):
             '\nАватарка с твоей фоткой'
 
     def should_be_auth_url(self):
-        assert self.should_be_string_in_url('oauth/authorize'), \
+        assert self.should_be_string_in_url('authorization'), \
             '\nГде-то мы обосрались:' \
             '\nЗначение элемента отличается от ожидаемого:' \
             '\nСтраница для авторизации не содержит подстроку:' \
-            '\noauth/authorize'
+            '\nauthorization'
 
     def should_be_main_page_url(self, mine_url):
         assert self.should_be_string_in_url(mine_url), \
