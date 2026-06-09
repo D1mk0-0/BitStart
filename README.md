@@ -17,3 +17,9 @@
 ```pip install -r requirements.txt```
 
 ```python test_scheduler.py```
+
+cd C:\Projects\123\bit_start
+
+venv\Scripts\activate
+
+python test_scheduler.py

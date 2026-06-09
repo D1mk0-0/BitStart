@@ -28,8 +28,9 @@ class TestBitStartDayPage:
 
     def test_start_bit_day(self, browser):
         self.bit_page.should_be_main_bitrix_mage(PresetData.MAIN_BIT_URL)
-        self.bit_page.select_item_time_block()
-        self.bit_page.should_be_popup_window_with_specified_button(PresetData.BUTTON_START)
-        self.bit_page.select_specified_button_in_window_popup(PresetData.BUTTON_START)
+        self.bit_page.select_user_avatar()
+        self.bit_page.should_be_popup_user_window_with_specified_button(PresetData.BUTTON_START)
+        self.bit_page.select_specified_button_in_user_window_popup(PresetData.BUTTON_START)
         self.bit_page.should_be_specified_popup_window_after(PresetData.BUTTON_START, PresetData.BUTTON_FINISH)
         self.bit_page.print_successful_message_about_start_day()
+
