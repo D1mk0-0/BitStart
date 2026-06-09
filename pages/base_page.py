@@ -98,11 +98,29 @@ class BasePage:
         wait.until(EC.visibility_of_all_elements_located)
 
     def wait_for_present_and_click(self, how, what, timeout=10):
-        time.sleep(.5)
-        if self.is_element_present(how, what, timeout):
-            self.browser.find_element(how, what).click()
-        else:
-            assert False, f'Элемент с локатором {how, what} не был найден на станице'
+
+        time.sleep(0.5)
+
+        try:
+            el = WebDriverWait(self.browser, timeout).until(
+                EC.element_to_be_clickable((how, what))
+            )
+        except:
+            assert False, f'Элемент с локатором {how, what} не был найден или не стал кликабельным за {timeout} сек'
+
+        try:
+            WebDriverWait(self.browser, 3).until(
+                EC.invisibility_of_element_located((By.CLASS_NAME, "ui-notification-manager-browser-text"))
+            )
+        except:
+            pass
+
+        self.browser.execute_script("arguments[0].scrollIntoView({block: 'center'});", el)
+
+        try:
+            el.click()
+        except:
+            self.browser.execute_script("arguments[0].click();", el)
 
     def wait_is_element_clickable_and_click(self, how, what, timeout=10):
         """Будет обращаться к элементу, пока он не станет доступен."""

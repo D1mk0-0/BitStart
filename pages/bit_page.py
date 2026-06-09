@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 
 from selenium.webdriver.common.by import By
@@ -33,6 +34,7 @@ class BitPage(BasePage):
         self.should_be_button_complete()
 
     def should_be_popup_user_window_with_specified_button(self, button_text):
+        time.sleep(5)
         self.should_be_window_popup_avatar_header()
         self.should_be_specified_button_in_user_window_popup(button_text)
 
@@ -72,7 +74,7 @@ class BitPage(BasePage):
             '\nАватарка с твоей фоткой'
 
     def should_be_auth_url(self):
-        assert self.should_be_string_in_url('authorization'), \
+        assert self.should_be_string_in_url('authorize'), \
             '\nГде-то мы обосрались:' \
             '\nЗначение элемента отличается от ожидаемого:' \
             '\nСтраница для авторизации не содержит подстроку:' \
@@ -93,7 +95,7 @@ class BitPage(BasePage):
 
     def should_be_specified_button_in_user_window_popup(self, button_text):
         how, what = BitPageLocators.WINDOW_POPUP_AVATAR_HEADER
-        button = f'//button/span/span[contains(text(),"{button_text}")]'
+        button = f'//button/span[contains(text(),"{button_text}")]'
 
         assert self.is_element_present(how, what + button), \
             '\nГде-то мы обосрались:' \
@@ -102,7 +104,7 @@ class BitPage(BasePage):
 
     def select_specified_button_in_user_window_popup(self, button_text):
         how, what = BitPageLocators.WINDOW_POPUP_AVATAR_HEADER
-        button = f'//button/span/span[contains(text(),"{button_text}")]'
+        button = f'//button/span[contains(text(),"{button_text}")]'
         self.wait_for_present_and_click(how, what + button)
 
     def select_specified_button_in_window_popup_timeman(self, button_text):

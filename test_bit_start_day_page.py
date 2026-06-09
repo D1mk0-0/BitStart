@@ -31,8 +31,6 @@ class TestBitStartDayPage:
         self.bit_page.select_user_avatar()
         self.bit_page.should_be_popup_user_window_with_specified_button(PresetData.BUTTON_START)
         self.bit_page.select_specified_button_in_user_window_popup(PresetData.BUTTON_START)
-        self.bit_page.should_be_popup_time_window_with_specified_button(PresetData.BUTTON_START)
-        self.bit_page.select_specified_button_in_window_popup_timeman(PresetData.BUTTON_START)
         self.bit_page.should_be_specified_popup_window_after(PresetData.BUTTON_START, PresetData.BUTTON_FINISH)
         self.bit_page.print_successful_message_about_start_day()
 

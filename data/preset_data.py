@@ -10,6 +10,7 @@ class PresetData:
 
     BUTTON_START = os.getenv('BUTTON_START', '')
     BUTTON_FINISH = os.getenv('BUTTON_FINISH', '')
+    BUTTON_PAUSE = os.getenv('BUTTON_PAUSE', '')
     BUTTON_CONTINUE = os.getenv('BUTTON_CONTINUE', '')
 
     TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '')
